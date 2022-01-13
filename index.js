@@ -1,13 +1,19 @@
 const express = require('express');
+require('dotenv').config();
+const cors = require("cors");
+
+const { crearConexion, cerrarConexion } = require('./config/conn.js')
 
 const app = express();
 
-const port = 3001;
+const port = process.env.APP_PORT || 3001;
 
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.json({mensaje: 'Bienvenidos al cia2 SOLO'})
+  // const rescon = crearConexion();
+  // const resclo = cerrarConexion();
+  res.json({mensaje: 'cia2 - NodeJS Backend'})
 })
 
 app.listen(port, () => {
