@@ -8,7 +8,6 @@ function routerAPI(app){
   app.use('/api/v1', router);
   router.use('/login',  authRoute)
   router.use('/estudios', checkApiKey, estudiosRoutes)
-
 }
 
 module.exports = routerAPI

@@ -1,29 +1,32 @@
 const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken')
-require('dotenv').config();
+const config = require('../config/config');
 
+/**
+ * Metodo para validar JWT en caso de acceder a rutas protegidas
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+*/
+const checkApiKey = (req, res, next) => {
 
-function checkApiKey(req, res, next){
-
-  const tkn = req.headers['token'];
-
-  if(tkn){
-    
-    // console.log(tkn)
-    try {      
-      
-      
-      let payload = jwt.decode( tkn, '18948941')
-    
-      console.log('se desencripta jwt')
-    
-    } catch (error) {
-      return res.json({error: 'token incorrecto'})
-    }
-    next();
-  }else{
-    next(boom.unauthorized());
+  if(!req.headers.authorization){
+    const error = boom.forbidden('No tienes permiso para acceder a este metodo');
+    return res.status(error.output.statusCode).json(error.output.payload);
   }
+
+  const token = req.headers.authorization.split(" ")[1];
+  const payload = jwt.decode(token, config.TOKEN_SECRET);
+
+  if(!payload) {
+    const error = boom.forbidden('No tienes permiso para acceder a este metodo');
+    return res.status(error.output.statusCode).json(error.output.payload);
+  }
+
+  console.log(payload);
+  req.user = payload;
+  next();
 }
 
 module.exports = { checkApiKey : checkApiKey }
