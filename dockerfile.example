@@ -1,0 +1,18 @@
+# Especifica la base de node que vamos utilizar (version)
+FROM node:16
+#Definimos el usuario para ejecutar los siguientes comandos
+USER node
+# Crearemos un directorio y daremos todos los permisos necesarios a su raiz
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+# Definimos la ruta del directorio de trabajo
+WORKDIR /home/node/app
+# Copiamos el package.json y package-lock.json del proyecto.
+COPY package*.json ./
+#Instalamos las dependencias del proyecto
+RUN npm install
+#Damos permisos apropiados al directorio de la aplicación en el contenedor
+COPY --chown=node:node . .
+# Exponemos la aplicacion en el puerto definido a continuación
+EXPOSE 80
+# Definimos los comandos iniciales para el comienzo del despliegue
+CMD [ "node", "app.js" ]
