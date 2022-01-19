@@ -8,8 +8,7 @@ const {crearToken, encontrarUno} = require('../../services/auth/auth')
 const router = express.Router()
 
 router.post('/', async (req, res) => {
-  const {username, password, captcha} = req.body
-
+  const {username, password, captcha} = req.body;
   if(username === ''){
     res.json({
       logged: false,
@@ -40,7 +39,6 @@ router.post('/', async (req, res) => {
           }else{
             res.json({ error: 'contraseña inválida'})
           }
-      
         }else{
           res.json({ error: 'Error en usuario y/o contraseña.'})
         }
