@@ -5,13 +5,11 @@ const config = require('./config/config')
 const {checkApiKey} = require('./middlewares/auth.handler')
 const routerAPI = require('./api') 
 
-
 const app = express();
 
 app.set('llave', config.llave);
 
 app.use(express.urlencoded({ extended: true }));
-
 
 const port = process.env.APP_PORT || 3001;
 
