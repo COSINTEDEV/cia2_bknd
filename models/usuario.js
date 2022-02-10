@@ -17,11 +17,19 @@ module.exports = (sequelize, DataTypes) => {
     nombres: DataTypes.STRING,
     apellidos: DataTypes.STRING,
     username: DataTypes.STRING,
-    correo: DataTypes.STRING,
-    password: DataTypes.STRING
+    correo: { 
+      type: DataTypes.STRING,
+      unique: true
+    },
+    password: DataTypes.STRING,
+    numero_contacto: DataTypes.INTEGER.UNSIGNED,
+    perfil: DataTypes.INTEGER,
+    interventoria: DataTypes.BOOLEAN                     
   }, {
     sequelize,
     modelName: 'Usuario',
   });
+
+  
   return Usuario;
 };
